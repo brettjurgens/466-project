@@ -17,7 +17,8 @@ def main():
     write_sequences(directory, random_sequences)
     write_sites(directory, plant_sites)
     write_motif(directory, motif_length, motif)
-
+    write_motif_length(directory, motif_length)
+    
 def generate_directory():
     """
     creates a diretory for the data...

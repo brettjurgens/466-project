@@ -119,7 +119,7 @@ def plant_binding_sites(sequences, binding_sites, seq_length, motif_length):
 def write_sequences(directory, sequences):
     f = open(os.path.join(directory, 'sequences.fa'), 'w')
     for i in xrange(len(sequences)):
-        f.write('>sequence%d\n' % i)
+        f.write('>%d\n' % i)
         f.write(sequences[i] + '\n')
     f.close()
 

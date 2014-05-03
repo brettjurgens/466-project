@@ -250,7 +250,7 @@ def gibbs(args):
 	f.write(">PMOTIF\t7\n")
 	for row in finder.residue_frequencies:
 		for col in row:
-			f.write(str(int(col))+"\t")
+			f.write(str(col)+"\t")
 		f.write("\n")
 	f.write(">")
 

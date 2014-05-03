@@ -15,16 +15,34 @@ import itertools
 # 	return
 
 	#combine
+
+def product(*args):
+    # product('ABCD', 'xy') --> Ax Ay Bx By Cx Cy Dx Dy
+    # product(range(2), repeat=3) --> 000 001 010 011 100 101 110 111
+    pools = map(tuple, args)
+    result = [[]]
+    for pool in pools:
+        result = [x+[y] for x in result for y in pool]
+    for prod in result:
+        yield tuple(prod)
+
 def brutalPossibilities(sequences, motiflength):
 
 	#generate possible slices
 	possibile_alignments = []
 	for sequence in sequences:
+		# print "new sequence"
 		alignments = []
 		for i in range(len(sequence) - motiflength):
 			alignments.append(sequence[i:i+motiflength])
-		possibile_alignments.append(alignments)
-	possibile_alignments = list(itertools.product(*possibile_alignments))
+			 # print alignments
+			possibile_alignments.append(alignments)
+		# print possibile_alignments
+	# print possibile_alignments
+
+	print "starting itertools"
+
+	possibile_alignments = list(product(*possibile_alignments))
 	# print possibile_alignments
 	#score motifs
 	motifPossibilities = brutalMotifPossibilities(motiflength, "")
@@ -33,6 +51,8 @@ def brutalPossibilities(sequences, motiflength):
 	max_motif = ""
 	motif_num = 1
 	for motif in motifPossibilities:
+		print "running motif " + str(motif_num) + " out of " + str(len(motifPossibilities)) #TIME NIGGA!
+
 		# print motif
 		score = 0		
 		for alignment in possibile_alignments:
@@ -42,7 +62,7 @@ def brutalPossibilities(sequences, motiflength):
 					if align[i] == motif[i]:
 						score += 1
 			# print score
-		print "ran motif " + str(motif_num) + " out of " + str(len(motifPossibilities))
+		
 		motif_num += 1
 
 		if score > max_score:	
@@ -77,7 +97,15 @@ def main():
 	sequence_fa = sys.argv[1]
 	motiflength_txt = sys.argv[2]
 
-	sequences = Fasta(sequence_fa)
+	# sequences = Fasta(sequence_fa)
+	sequences = []
+	sequences_file = open(sequence_fa, 'r')
+	line = "yoyoyo"
+	while line != "":
+		line = sequences_file.readline() 
+		sequences.append(sequences_file.readline()[:-1])
+
+	print sequences
 
 	motiflength_file = open(motiflength_txt, 'r')
 	motif_length = int(motiflength_file.readline())

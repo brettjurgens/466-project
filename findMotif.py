@@ -210,13 +210,12 @@ def main():
 	parser.add_argument('iterations', type=int, help='Number of Gibbs Sampler iterations to perform')
 	parser.add_argument('--debug', action='store_true', help='Turn on debugging information', default=False)
 	args = parser.parse_args()
-	gibbs(args)
+	gibbs(args.directory, args.iterations)
 
 #gibbs takes dictionary with directory and iterations
-def gibbs(args):
-	_debugging_endabled_ = args.debug
-	length_path = os.path.join(args.directory, 'motiflength.txt')
-	sequences_path = os.path.join(args.directory, 'sequences.fa')
+def gibbs(directory, iterations):
+	length_path = os.path.join(directory, 'motiflength.txt')
+	sequences_path = os.path.join(directory, 'sequences.fa')
 
 	debug("using length from: %s" % length_path)
 	debug("using sequences from: %s" % sequences_path)
@@ -229,7 +228,7 @@ def gibbs(args):
 	finder = MotifFinder(sequences, motif_length)
 	debug(finder)
 
-	for i in range(0, args.iterations):
+	for i in range(0, iterations):
 		finder.gibbs_sampler()
 
 	print "Motif: %s" % finder.residue_frequencies
@@ -240,14 +239,14 @@ def gibbs(args):
 		print _baseArray[numpy.argmax(base)]
 
 	#write files out
-	f = os.path.join(args.directory, "predictedsites.txt")
+	f = os.path.join(directory, "predictedsites.txt")
 	f = open(f,'w')
 	for site in finder.alignments:
 		f.write(str(int(site)) +"\n")
 
-	f = os.path.join(args.directory, "predictedmotif.txt")
+	f = os.path.join(directory, "predictedmotif.txt")
 	f = open(f,'w')
-	f.write(">PMOTIF\t7\n")
+	f.write(">PMOTIF\t"+str(len(finder.residue_frequencies))+"\n")
 	for row in finder.residue_frequencies:
 		for col in row:
 			f.write(str(col)+"\t")

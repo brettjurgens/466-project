@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage[english]{babel}
+
+\setlength{\parskip}{.4cm}
+\setlength{\baselineskip}{15pt}
+\setlength{\parindent}{0cm}
+
+\author{Brett Jurgens}
+\date{}
+
+\begin{document}
+    Let’s say you’re comparing motif M1 with motif M2.
+    
+    Each motif is a PWM of length, say, k. So $M11, M12, ..., M1k$
+    are the columns of motif M1; and $M21, M22, ..., M2k$ are the columns of M2.
+    
+    The relative entropy score comparing these two motifs is going to be the sum over all positions, of
+    the relative entropy between the corresponding columns.
+    
+    That is, $RE(M1,M2) = \sum_{i=1}^{k} RE(M1i, M2i)$.
+    
+    Now the question is how to compute the RE of two columns.
+    
+    Well, each column (i.e., M1i or M2i) is a probability distribution over the four nucleotides.
+    
+    And relative entropy is defined over two probability distributions over the same space:
+    
+    Let $p = (p1, p2, p3, p4)$ and $q = (q1, q2, q3, q4)$ be two probability distributions over the four
+    nucleotides. Then RE(p,q) is defined as $\sum_j p_j log (p_j/q_j)$.
+    
+    Plugging this formula into the computation of RE(M1i, M2i) and summing over all $i = 1, 2, ..., k$,
+    you get the RE of the two motifs.
+\end{document}

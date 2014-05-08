@@ -35,7 +35,7 @@ class NGram:
 		return ngram
 
 motifFinder = {"bases" : 4,
-			"base_map" : { 'a': 0, 'c': 1, 'g': 2, 't': 3 },
+			"base_map" : { 'g': 0, 'c': 1, 'a': 2, 't': 3 },
 			"pseudocounts" : [ .5, .5, .5, .5 ],
 			"pseudocounts_total" : 0,
 			"motif_length" : 0,
@@ -128,8 +128,7 @@ class MotifFinder:
 		# update the residue frequencies
 		for i in range(0, self.motif_length):
 			for j in range(0, self.bases):
-				# self.residue_frequencies[i,j] = (counts[i,j] + self.pseudocounts[j]) / (self.sequence_count - 1 + self.pseudocounts_total)
-				self.residue_frequencies[i,j] = counts[i,j] + .01
+				self.residue_frequencies[i,j] = (counts[i,j] + self.pseudocounts[j]) / (self.sequence_count - 1 + self.pseudocounts_total)
 
 		background_length = 0
 		for (i, (k, seq)) in enumerate(self.sequences.iteritems()):
@@ -138,8 +137,7 @@ class MotifFinder:
 
 		# update the background frequencies
 		for i in range(0, self.bases):
-			# self.background_frequencies[i] = (background_counts[i] + self.pseudocounts[i]) / (background_length + self.pseudocounts_total)
-			self.background_frequencies[i] = background_counts[i] + .01
+			self.background_frequencies[i] = (background_counts[i] + self.pseudocounts[i]) / (background_length + self.pseudocounts_total)
 
 
 	def sample(self, sequence):

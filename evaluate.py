@@ -9,7 +9,7 @@ def main():
         print "Usage ./evaluate.py data_set iterations"
     directory = sys.argv[1]
     iterations = int(sys.argv[2])
-    evaluate_dir(directory, iterations)
+    evaluate_dir(directory)
 
 def evaluate_all():
     """
@@ -18,11 +18,12 @@ def evaluate_all():
     count = 0
     for root, dirs, files in os.walk('data'):
         for directory in dirs:
-            evaluate_dir(directory, 10)
+            evaluate_dir(directory)
 
-def evaluate_dir(directory, iterations):
-    path = "data/{0}".format(directory)
+def evaluate_dir(directory):
+    path = "data/{}".format(directory)
 
+    iterations = 10
     print "Processing folder with {0} iterations".format(iterations)
 
     start_time = time.time()
@@ -118,6 +119,7 @@ def relate_entropy(m1i, m2i):
     for j in xrange(4):
         m2ij = float(m2i[j])
         the_sum += m1i[j] * math.log(m1i[j]/m2ij)
+        print the_sum
     return the_sum
 
 def compute_relative_entropy(motif, predicted_motif):

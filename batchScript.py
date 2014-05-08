@@ -7,7 +7,7 @@ def main():
 	    	#get path
 	        path = "{}".format(directory)
 	        print path
-	        args = ['/Users/maxwelllu/Documents/Career/Hedging/School/CS466/Final Project/466-project/evaluate.py', path, iterations]
+	        args = ['nohup', './evaluate.py', path, iterations, '&']
 	        print args
 	        p = subprocess.Popen(args)
 	return

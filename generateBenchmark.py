@@ -15,28 +15,31 @@ def main():
     seq_length = 500
     seq_count = 10
 
-    # variable num_variable (0, 1, 2)
-    for i in xrange(3):
-        benchmark(motif_length, i, seq_length, seq_count)
-        time.sleep(1)
+    # counter
+    counter = 0
+    for i in xrange(10):
+        # variable num_variable (0, 1, 2)
+        for i in xrange(3):
+            benchmark(motif_length, i, seq_length, seq_count, counter)
+            time.sleep(1)
 
-    # variable motif_length (6, 7, 8)
-    for i in [6, 7, 8]:
-        benchmark(i, num_variable, seq_length, seq_count)
-        time.sleep(1)
+        # variable motif_length (6, 7, 8)
+        for i in [6, 7]:
+            benchmark(i, num_variable, seq_length, seq_count, counter)
+            time.sleep(1)
 
-    # variable seq_count (5, 10, 20)
-    for i in [5, 10, 20]:
-        benchmark(motif_length, num_variable, seq_length, i)
-        time.sleep(1)
+        # variable seq_count (5, 10, 20)
+        for i in [5, 20]:
+            benchmark(motif_length, num_variable, seq_length, i, counter)
+            time.sleep(1)
 
-def benchmark(motif_length, num_variable, seq_length, seq_count):
+def benchmark(motif_length, num_variable, seq_length, seq_count, counter):
     # no longer constants!
     # motif_length = 8
     # num_variable = 1
     # seq_length = 500
     # seq_count = 10
-    directory = generate_directory()
+    directory = generate_directory(counter)
 
     random_sequences = generate_random_sequences(seq_count, seq_length)
     motif = generate_random_motif(motif_length, num_variable)
@@ -47,17 +50,18 @@ def benchmark(motif_length, num_variable, seq_length, seq_count):
     write_motif(directory, motif_length, motif)
     write_motif_length(directory, motif_length)
     
-def generate_directory():
+def generate_directory(counter):
     """
     creates a diretory for the data...
     """
-    base_dir = './data'
+    base_dir = "./data"
     if not os.path.exists(base_dir):
         os.makedirs(base_dir)
     now = datetime.datetime.now()
     date_dir = now.strftime('%Y-%m-%d-%H%M%S')
 
-    formatted_dir = base_dir + '/' + date_dir
+    formatted_dir = base_dir + "/" + date_dir + "_ds{0}".format(counter)
+
     if not os.path.exists(formatted_dir):
         os.makedirs(formatted_dir)
 

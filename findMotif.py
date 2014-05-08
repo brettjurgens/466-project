@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import argparse, random, numpy, itertools, os
+import random, numpy, itertools, os
 from pyfasta import Fasta
 
 _debugging_endabled_ = False
@@ -199,18 +199,6 @@ class MotifFinder:
 
 	def __repr__(self):
 		return self.__str__()
-
-def main():
-	global _debugging_endabled_
-	parser = argparse.ArgumentParser(description='Motif finding using the Gibbs Motif Sampling Algorithm', formatter_class=argparse.RawDescriptionHelpFormatter,
-		epilog='''Generates the following files (in directory):
-  * predictedmotif.txt
-  * predictedsites.txt''')
-	parser.add_argument('directory', type=str, help='Read and write files to this directory', default='./data')
-	parser.add_argument('iterations', type=int, help='Number of Gibbs Sampler iterations to perform')
-	parser.add_argument('--debug', action='store_true', help='Turn on debugging information', default=False)
-	args = parser.parse_args()
-	gibbs(args.directory, args.iterations)
 
 #gibbs takes dictionary with directory and iterations
 def gibbs(directory, iterations):

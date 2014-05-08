@@ -32,6 +32,8 @@ def main():
         for i in [5, 20]:
             benchmark(motif_length, num_variable, seq_length, i, counter)
             time.sleep(1)
+            
+        counter += 1
 
 def benchmark(motif_length, num_variable, seq_length, seq_count, counter):
     # no longer constants!

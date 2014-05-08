@@ -9,7 +9,7 @@ def main():
         print "Usage ./evaluate.py data_set iterations"
     directory = sys.argv[1]
     iterations = int(sys.argv[2])
-    evaluate_dir(directory)
+    evaluate_dir(directory, iterations)
 
 def evaluate_all():
     """
@@ -18,12 +18,15 @@ def evaluate_all():
     count = 0
     for root, dirs, files in os.walk('data'):
         for directory in dirs:
-            evaluate_dir(directory)
+            evaluate_dir(directory, 10)
 
-def evaluate_dir(directory):
+def evaluate_dir(directory, iterations):
     path = "data/{}".format(directory)
 
+<<<<<<< HEAD
     iterations = 20
+=======
+>>>>>>> 35494a41ac7e672589c2cbac4626803a8a1e21cd
     print "Processing folder with {0} iterations".format(iterations)
 
     start_time = time.time()

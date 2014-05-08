@@ -1,6 +1,3 @@
-predictedmotif.txt
-predictedsites.txt
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -55,3 +52,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# mac
+.DS_Store

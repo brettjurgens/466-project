@@ -1,13 +1,7 @@
 #!/usr/bin/python
 
-import argparse, random, numpy, itertools, os
+import argparse, random, numpy, itertools, os, time
 from pyfasta import Fasta
-
-_debugging_endabled_ = False
-
-def debug(string):
-	if _debugging_endabled_:
-		print string
 
 def weighted_choice(weights):
 	totals = []
@@ -102,14 +96,13 @@ class MotifFinder:
 	def gibbs_sampler(self):
 		z = random.randint(0, self.sequence_count - 1)
 		sequence = self.sequence(z)
-		debug('selected: %d: \"%s\"' % (z, sequence))
+
 
 		self.predictive_update(z)
-		debug(self)
+
 		self.alignments[z] = self.sample(self.sequence(z))
 
-		debug('changed alignment[%d] to %d' % (z, self.alignments[z]))
-		debug(self)
+
 
 	def predictive_update(self, z):
 		counts = numpy.zeros((self.motif_length, self.bases))
@@ -130,9 +123,7 @@ class MotifFinder:
 					else:
 						counts[i - start, j] += 1
 
-		debug('counts = %s' % counts)
-		debug('background_counts = %s' % background_counts)
-		debug('background_total = %d' % background_total)
+
 
 		# update the residue frequencies
 		for i in range(0, self.motif_length):
@@ -155,19 +146,16 @@ class MotifFinder:
 		likelihoods_total = 0
 		for start in range(0, max_start):
 			likelihoods[start] = self.likelihood(sequence, start)
-			debug('= %f' % likelihoods[start])
 			likelihoods_total += likelihoods[start]
 
-		debug('likelihoods = %s' % likelihoods)
-		debug('likelihoods_total = %f' % likelihoods_total)
+
 
 		# normalize the likelihoods
 		multiplier = 1 / likelihoods_total
-		debug('multiplier = %f' % multiplier)
+
 		for i in range(0, len(likelihoods)):
 			likelihoods[i] *= multiplier
 
-		debug('likelihoods (normalized) = %s' % likelihoods)
 
 		return weighted_choice(likelihoods)
 
@@ -178,7 +166,6 @@ class MotifFinder:
 			base_index = self.base_index(base)
 			motif_probability *= self.residue_frequencies[i, base_index]
 			background_probability *= self.background_frequencies[base_index]
-			debug('%s(%d): %f/%f' % (base, base_index, self.residue_frequencies[i, base_index], self.background_frequencies[base_index]))
 
 		return motif_probability / background_probability
 
@@ -197,28 +184,21 @@ class MotifFinder:
 		str_residue += ']'
 		return "MotifFinder {\n\tmotif_length = %s\n\tsequences[%d] = %s\n\tresidue_frequencies = %s\n\tbackground_frequences = %s\n\talignments = %s\n}" % (self.motif_length, self.sequence_count, str_sequences, str_residue, self.background_frequencies, self.alignments)
 
-	def __repr__(self):
-		return self.__str__()
-
 def main():
-	global _debugging_endabled_
 	parser = argparse.ArgumentParser(description='Motif finding using the Gibbs Motif Sampling Algorithm', formatter_class=argparse.RawDescriptionHelpFormatter,
 		epilog='''Generates the following files (in directory):
   * predictedmotif.txt
   * predictedsites.txt''')
 	parser.add_argument('directory', type=str, help='Read and write files to this directory', default='./data')
 	parser.add_argument('iterations', type=int, help='Number of Gibbs Sampler iterations to perform')
-	parser.add_argument('--debug', action='store_true', help='Turn on debugging information', default=False)
 	args = parser.parse_args()
 	gibbs(args.directory, args.iterations)
 
 #gibbs takes dictionary with directory and iterations
 def gibbs(directory, iterations):
+	start_time = time.time()
 	length_path = os.path.join(directory, 'motiflength.txt')
 	sequences_path = os.path.join(directory, 'sequences.fa')
-
-	debug("using length from: %s" % length_path)
-	debug("using sequences from: %s" % sequences_path)
 
 	length_file = open(length_path, 'r')
 	motif_length = int(length_file.readline())
@@ -226,7 +206,7 @@ def gibbs(directory, iterations):
 	sequences = Fasta(sequences_path)
 
 	finder = MotifFinder(sequences, motif_length)
-	debug(finder)
+
 
 	for i in range(0, iterations):
 		finder.gibbs_sampler()
@@ -252,7 +232,8 @@ def gibbs(directory, iterations):
 			f.write(str(col)+"\t")
 		f.write("\n")
 	f.write(">")
-
+	exec_time = time.time()-start_time
+	print "took time(seconds):" +str(exec_time)
 
 
 if __name__ == '__main__':

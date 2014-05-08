@@ -23,6 +23,10 @@ def evaluate_all():
 def evaluate_dir(directory, iterations):
     path = "data/{0}".format(directory)
 
+<<<<<<< HEAD
+=======
+    iterations = 10
+>>>>>>> parent of c289f1b... decimals
     print "Processing folder with {0} iterations".format(iterations)
 
     start_time = time.time()

@@ -1,13 +1,41 @@
 #!/usr/bin/python
 
-import random, os, datetime
+import random, os, datetime, time
 
 def main():
-    # constants... for now...
+    # Let the default parameter combination be "ML = 8, NM=1, SL = 500, SC = 10".
+    # a) set NM = 0, 1, 2, while other parameters are at default values.
+    # b) Set ML = 6,7,8, while other parameters are at default values.
+    # c) Set SC = 5, 10, 20, while other parameters are at default values.
+    # You may keep SL fixed at 500.
+
+    # defaults
     motif_length = 8
     num_variable = 1
     seq_length = 500
     seq_count = 10
+
+    # variable num_variable (0, 1, 2)
+    for i in xrange(3):
+        benchmark(motif_length, i, seq_length, seq_count)
+        time.sleep(1)
+
+    # variable motif_length (6, 7, 8)
+    for i in [6, 7, 8]:
+        benchmark(i, num_variable, seq_length, seq_count)
+        time.sleep(1)
+
+    # variable seq_count (5, 10, 20)
+    for i in [5, 10, 20]:
+        benchmark(motif_length, num_variable, seq_length, i)
+        time.sleep(1)
+
+def benchmark(motif_length, num_variable, seq_length, seq_count):
+    # no longer constants!
+    # motif_length = 8
+    # num_variable = 1
+    # seq_length = 500
+    # seq_count = 10
     directory = generate_directory()
 
     random_sequences = generate_random_sequences(seq_count, seq_length)

@@ -21,7 +21,7 @@ def evaluate_all():
             evaluate_dir(directory, 10)
 
 def evaluate_dir(directory, iterations):
-    path = "data/{}".format(directory)
+    path = "data/{0}".format(directory)
 
     print "Processing folder with {0} iterations".format(iterations)
 

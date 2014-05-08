@@ -12,7 +12,7 @@ def main():
         for directory in dirs:
             path = "data/{}".format(directory)
 
-            iterations = 1000000
+            iterations = 10
             print "Processing folder #{0}/8 with {1} iterations".format(count, iterations)
 
             start_time = time.time()
@@ -62,7 +62,7 @@ def main():
             sites_file.close()
 
             # open predicted sites
-            p_sites_file = open(os.path.join(path, 'sites.txt'), 'r')
+            p_sites_file = open(os.path.join(path, 'predictedsites.txt'), 'r')
             reader = csv.reader(p_sites_file, delimiter='\n')
             predicted_sites = list(reader)
             predicted_sites = numpy.array(predicted_sites)
@@ -73,7 +73,7 @@ def main():
             overlap = calculate_overlap(sites, predicted_sites)
 
             write_stats(path, run_time, relative_entropy, overlap)
-            
+
             count += 1
 
 def motif_to_pwm(motif):

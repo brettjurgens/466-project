@@ -23,7 +23,6 @@ def evaluate_all():
 def evaluate_dir(directory):
     path = "data/{}".format(directory)
 
-    iterations = 10
     print "Processing folder with {0} iterations".format(iterations)
 
     start_time = time.time()

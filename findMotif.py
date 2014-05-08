@@ -222,7 +222,7 @@ def gibbs(directory, iterations):
 	f = os.path.join(directory, "predictedsites.txt")
 	f = open(f,'w')
 	for site in finder.alignments:
-		f.write(str(int(site)) +"\n")
+		f.write(str(int(site)+1) +"\n")
 
 	f = os.path.join(directory, "predictedmotif.txt")
 	f = open(f,'w')

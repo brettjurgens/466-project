@@ -69,7 +69,7 @@ def base_index(motifFinder, base):
 class MotifFinder:
 	def __init__(self, sequences, motif_length):
 		self.bases = 4
-		self.base_map = { 'g': 0, 'c': 1, 'a': 2, 't': 3 }
+		self.base_map = { 'a': 0, 'c': 1, 'g': 2, 't': 3 }
 		self.pseudocounts = [ .5, .5, .5, .5 ]
 		self.pseudocounts_total = 0
 		self.motif_length = motif_length
@@ -214,7 +214,7 @@ def gibbs(directory, iterations):
 	print "Motif: %s" % finder.residue_frequencies
 	print "Sites: %s" % finder.alignments
 
-	_baseArray = ['g','c','a','t']
+	_baseArray = ['a','c','g','t']
 	for base in finder.residue_frequencies:
 		print _baseArray[numpy.argmax(base)]
 

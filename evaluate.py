@@ -118,7 +118,6 @@ def relate_entropy(m1i, m2i):
     for j in xrange(4):
         m2ij = float(m2i[j])
         the_sum += m1i[j] * math.log(m1i[j]/m2ij)
-        print the_sum
     return the_sum
 
 def compute_relative_entropy(motif, predicted_motif):
